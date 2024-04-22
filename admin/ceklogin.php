@@ -22,18 +22,41 @@
     $result_count = $result->num_rows;
     echo "hasilnya",$result_count;
     if ($result_count == 1) {
-        echo "user ditemukan lanjut cek password";
+        // echo "user ditemukan lanjut cek password";
         //metode ini mengambil satu baris hasil objek dari result 
         //dalam bentuk array asossiatif, dimana kunci array adalah nama kolom dan nilai array
         $data = $result->fetch_assoc();
         //proses verifikasi password yang di inputkan sesuai atau tidak dengan yang ada di tabel mst_user 
         if(password_verify($out_pass, $data['password'])){
-            echo "password benar, login berhasil";
+            notifikasi("password benar, login berhasil");
+            //mulai membuat session
+            session_start();
+            //mendeklarasikan variabel session 
+            $_SESSION['userlogin'] = $data['username'];
+            $_SESSION['loginname'] = $data['fullname'];
+            //direct atau berpindah ke halaman 
+            header("location: home.php");
         }
         else 
-         echo "password salah, login gagal";
+         notifikasi("password salah, login gagal");
+        back();
     }
     else 
-        echo "username tidak ditemukan";
+        notifikasi("username tidak ditemukan");
+        back();
 
+    //function tanpa parameter 
+    // function notifikasi(){
+    //     //untuk menyisipkan file di dalam javascript harus di antara tag script
+    //     echo "<script>alert('username tidak ditemukan');</script>";
+    // }
+    //function dengan parameter
+    function notifikasi($pesan){
+        //untuk menyisipkan file di dalam javascript harus di antara tag script
+        echo "<script>alert('$pesan');</script>";
+    }
+    //cara menyisipkan tag link html ke 
+    function back(){
+        echo '<a href ="index.php">login kembali</a>';
+    }
 ?>

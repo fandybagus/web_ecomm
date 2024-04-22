@@ -156,17 +156,21 @@ $nama_toko = "fan's distro"
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="bg-light p-4 m-5">
+            <form action="member/login.php" method="post" class="bg-light p-4 m-5">
               <div class="alert alert-danger" role="alert" id="alert" style="display: none"></div>
               <div class="alert alert-success" role="alert" id="alertok" style="display: none"></div>
               <div id="judul" class="mt-3"></div>
               <div class="mb-4">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" name="logusername" class="form-control" id="logusername" />
+                <input type="text" name="logusername" class="form-control" id="logusername" 
+                oninvalid="this.setCustomValidity('Username belum diisi')" required
+                oninput="setCustomValidity('')" />
               </div>
               <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="logpassword" />
+                <input type="password" name="logpassword" class="form-control" id="logpassword" 
+                oninvalid="this.setCustomValidity('password belum diisi')" required
+                oninput="setCustomValidity('')" />
               </div>
             </form>
           </div>
@@ -174,6 +178,16 @@ $nama_toko = "fan's distro"
             <button type="button" id="btnbatal" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
             <button type="button" id="btnkeluar" class="btn btn-primary" onclick="ceklogin()">Login</button>
           </div>
+          <?php
+
+            echo '<script>
+                function ceklogin() {
+                    // Kode JavaScript untuk memvalidasi input dan melakukan submit form
+                    // Anda dapat menambahkan validasi tambahan di sini jika diperlukan
+                    document.querySelector(\'form\').submit();
+                }
+            </script>';
+          ?>
         </div>
       </div>
     </div>
