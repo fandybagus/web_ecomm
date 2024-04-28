@@ -23,11 +23,24 @@ require_once('../config/general.php');
                 echo $company; ?></h4>
                 <!-- dari bootstrap, list group -->
                 <ul class="list-group list-group-flush" id="listmenu">
-                    <li class="list-group-item">Menu-01</li>
+                    <?php
+                    //untuk mendapatkan sql query 
+                    $statment_sql = $cn_mysql->prepare("select*from mst_menus where isactive=1");
+                    //untuk mengeksekusi kode sql 
+                    $statment_sql->execute();
+                    $result = $statment_sql->get_result();
+                    while ($d = $result ->fetch_assoc()) {
+                        echo '<li class="list-group-item"> <a href='.$d["menu_link"].'> '.$d["menu_name"].'<a></li>';
+                    }
+                    ?>
+                    
                     <li class="list-group-item"><a href="logout.php">LOGOUT</a></li>
                 </ul>
             </div>
             <div class="col-md-10 p-4">
+                <?php 
+                if(!isset($_GET['modul'])){
+                ?>
                 <h5 id="title"><?php title(); ?>
                 <span style="float: right;"> welcome : <?php echo $_SESSION['loginname']; ?></span></h5>
                 <hr>
@@ -43,6 +56,23 @@ require_once('../config/general.php');
                     </ul>";
                 ?>
             </div>
+            <?php 
+                }
+                else{
+                    echo'
+                    <h5 id="title>"
+                        modul: '.title($_GET['modul']).'
+                        <span style="float: right;"> welcome : '.$_SESSION['loginname'].'</span>
+                    </h5>
+                    <hr>
+                    ';
+                    //untuk menampung  
+                    $pagenya = $_GET['modul'].".php";
+                    // // untuk menyisipkan 
+                    include_once("modul/$pagenya");
+                    
+                }
+            ?>
         </div>
     </div>
     <!-- file js -->
