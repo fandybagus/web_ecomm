@@ -7,10 +7,12 @@ tampil data
 }
 else {
     if($_GET['action']=="add"){
-        echo "tambah data";
+        $process ="add"; //variabel ini digunakan untuk membedakan ketika memprocess data baik simpan data 
+
     }
     else{
-        echo "ubah data";
+        $process ="edit"; //variabel ini digunakan untuk membedakan ketika memprocess data baik simpan data 
+
     }
 ?>
 tampil form input/edit

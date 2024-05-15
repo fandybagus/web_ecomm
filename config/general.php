@@ -11,4 +11,10 @@ function title ($tl= NULL){
     else 
         echo $tl;
 }
+function back($url){
+    echo "<meta http-equiv=\"REFRESH\" content=\"0;url=".$url."\">";
+}
+function notif($pesan){
+    echo "<script>alert('$pesan');</script>";
+}
 ?>
