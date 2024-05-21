@@ -9,10 +9,11 @@ if(!isset($_GET['action'])){
         <thead>
             <tr>
                 <th>No</th>
-                <th>Nama produk</th>
-                <th>harga</th>
-                <th>stok</th>
-                <th>kategori</th>
+                <th>Tanggal</th>
+                <th>No.Invoice</th>
+                <th>Pelanggan</th>
+                <th>Total</th>
+                <th>Pembayaran</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -28,9 +29,10 @@ if(!isset($_GET['action'])){
             ?>
             <tr>
                 <td class="col-md-1"><?php echo $no;?></td>
-                <td class="col-md-3"></td>
                 <td class="col-md-2"></td>
                 <td class="col-md-2"></td>
+                <td class="col-md-2"></td>
+                <td class="col-md-1"></td>
                 <td class="col-md-2"></td>
                 <td>
                     <a href="?modul=<?php echo $_GET['modul'];?>&action=edit&id=<?php echo $data['categoryid'];?>" class="btn btn-primary" title="ubah data"><i class="bi bi-pencil-fill mx-2"></i><a>
@@ -51,51 +53,69 @@ else {
         //variabel untuk tambah data
         $process ="add"; //variabel ini digunakan untuk membedakan ketika memprocess data baik simpan data 
         $nama = "";
+    
     }
-    else{
-       //variabel untuk ubah data
-       $process ="edit"; //variabel ini digunakan untuk membedakan ketika memprocess data baik ubah data
-       //proses mengambil data
-       $keyid= $_GET['id']; //menampung variabel id yg di URL
-       //untuk mendapatkan sql query 
-       $statment_sql = $cn_mysql->prepare("select*from product_category where categoryid=".$_GET['id']."");
-       //untuk mengeksekusi kode sql 
-       $statment_sql->execute();
-       $result = $statment_sql->get_result(); 
-       $data = $result ->fetch_assoc();
-       $nama = $data['category_name'];
+    else if($_GET['action']=="edit"){
+        //variabel untuk ubah data
+        $process ="edit"; //variabel ini digunakan untuk membedakan ketika memprocess data baik ubah data
+        //proses mengambil data
+        $keyid= $_GET['id']; //menampung variabel id yg di URL
+        //untuk mendapatkan sql query 
+        $statment_sql = $cn_mysql->prepare("select*from product_category where categoryid=".$_GET['id']."");
+        //untuk mengeksekusi kode sql 
+        $statment_sql->execute();
+        $result = $statment_sql->get_result(); 
+        $data = $result ->fetch_assoc();
+        $nama = $data['category_name'];
     }
+
+    else if($_GET['action']=="delete"){
+        header("location: modul/kategoriproses.php?proses=delete&id=".$_GET['id']."");
+        
+    }
+   
 ?>
- <form action="modul/kategoriproses.php" method="post">
+<!-- tampil form input/edit -->
+<form action="modul/kategoriproses.php" method="post">
     <input type="hidden" name="proses" value="<?php echo $process; ?>">
     <input type="hidden" name="keyid" value="<?php echo $keyid; ?>">
     <input type="hidden" name="createdby" value="<?php echo $_SESSION['loginname']; ?>">
     <div class="row">
-        <label class="col-md-2">Kategori produk :</label>
-        <div class="col-md-4">
-            <select class="form-select" id="k_produk" name="k_produk">pilih kategori</select>
+        <label class="col-md-2">No.Invoice :</label>
+        <div class="col-md-3">
+            <select class="form-select" id="n_invoice" name="n_invoice">pilih kategori</select>
+        </div>
+        <label class="col-md-1">Tanggal :</label>
+        <div class="col-md-3">
+            <input type="datetime-local" class="form-control" id="tanggal" name="tanggal">
         </div>
     </div>
-    <div class="row my-3">
-        <label class="col-md-2 ">nama produk :</label>
-        <div class="col-md-5">
-            <input type="text" name="namaproduk" class="form-control input-sm">
+    <div class="row my-2">
+        <label class="col-md-2 ">Nama Pelanggan :</label>
+        <div class="col-md-7">
+            <input type="text" name="namapelanggan" class="form-control input-sm">
         </div>
     </div>
-    <div class="row my-3">
-        <label class="col-md-2">harga :</label>
-        <div class="col-md-2">
-            <input type="text" name="harga" class="form-control input-sm">
+    <div class="row my-2">
+        <label class="col-md-2 ">Bukti Pembayaran :</label>
+        <div class="col-md-7">
+        <input type="file" name="buktipembayaran" class="form-control input-sm">
         </div>
-        <label class="col-md-1">stok :</label>
-        <div class="col-md-2">
-            <input type="text" name="stok" class="form-control input-sm">
+    </div>
+    <div class="row my-2">
+        <label class="col-md-2">Status Pembayaran</label>
+        <div class="col-md-3">
+            <select class="form-select" id="Statuspembayaran" name="statuspembayaran">pilih kategori</select>
+        </div>
+        <label class="col-md-1">Nominal </label>
+        <div class="col-md-3">
+            <input type="text" name="nominal" class="form-control input-sm">
         </div>
     </div>
     <div class="row">
-        <label class="col-md-2">deskripsi :</label>
-        <div class="col-md-5">
-        <textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+        <label class="col-md-2">Status Pengiriman :</label>
+        <div class="col-md-7">
+            <select class="form-select" id="s_pengiriman" name="s_pengiriman">pilih kategori</select>
         </div>
     </div>
     <div class="row">
