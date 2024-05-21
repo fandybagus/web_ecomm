@@ -97,6 +97,46 @@ else {
         </div>
     </div>
     <div class="row my-2">
+        <label class="col-md-2 ">No.Telepon:</label>
+        <div class="col-md-7">
+            <input type="text" name="namapelanggan" class="form-control input-sm">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <table class="table table-dark table-striped my-2">
+                <tr>
+                    <!-- colspan fungsinya untuk merge coloumn dalam tabel -->
+                    <th colspan="5">Data Barang</th>
+                </tr>
+                <tr>
+                    <th width="5%">No</th>
+                    <th >Nama Barang</th>
+                    <th width="20%">Harga</th>
+                    <th width="10%">Jumlah</th>
+                    <th width="5%">Subtotal</th>
+                </tr>
+                <tr>
+                    <td width="5%">#</td>
+                    <td>
+                        <select class="form-select" id="nm_barang" name="nm_barang">
+                            <option >Pilih Nama barang</option>
+                        </select>
+                    </td>
+                    <td width="20%">
+                        <input type="number" class="form-control" readonly>
+                    </td>
+                    <td width="10%">
+                        <input type="number" class="form-control">
+                    </td>
+                    <td width="5%">
+                        <input type="number" class="form-control" readonly>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row my-2">
         <label class="col-md-2 ">Bukti Pembayaran :</label>
         <div class="col-md-7">
         <input type="file" name="buktipembayaran" class="form-control input-sm">
