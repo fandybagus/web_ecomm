@@ -20,6 +20,7 @@ if(!isset($_GET['action'])){
              $statment_sql = $cn_mysql->prepare("select*from product_category where isactive=1");
              //untuk mengeksekusi kode sql 
              $statment_sql->execute();
+             //untuk menampung hasil eksekusi query
              $result = $statment_sql->get_result();
              while ($data = $result ->fetch_assoc()) {
             ?>

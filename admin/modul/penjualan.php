@@ -93,7 +93,9 @@ else {
     <div class="row my-2">
         <label class="col-md-2 ">Nama Pelanggan :</label>
         <div class="col-md-7">
-            <input type="text" name="namapelanggan" class="form-control input-sm">
+        <select class="form-select" id="n_invoice" name="n_invoice">
+            <option >Pilih Nama Pelanggan</option>
+        </select>
         </div>
     </div>
     <div class="row my-2">
@@ -139,13 +141,15 @@ else {
     <div class="row my-2">
         <label class="col-md-2 ">Bukti Pembayaran :</label>
         <div class="col-md-7">
-        <input type="file" name="buktipembayaran" class="form-control input-sm">
+            <input type="file" name="buktipembayaran" class="form-control input-sm">
         </div>
     </div>
     <div class="row my-2">
         <label class="col-md-2">Status Pembayaran</label>
         <div class="col-md-3">
-            <select class="form-select" id="Statuspembayaran" name="statuspembayaran">pilih kategori</select>
+            <select class="form-select" id="Statuspembayaran" name="statuspembayaran">
+                <option>pilih kategori</option>  
+            </select>
         </div>
         <label class="col-md-1">Nominal </label>
         <div class="col-md-3">
