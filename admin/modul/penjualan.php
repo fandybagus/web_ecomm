@@ -166,7 +166,7 @@ else {
         <div class="col-md-2"></div>
         <div class="col-md-5">
             <hr>
-            <button type="reset" class="btn btn-sm btn-secondary"><i class=”bi bi-x-circle-fill”></i>Batal</button>
+            <button type="reset" class="btn btn-sm btn-secondary" onclick="history.back()"><i class=”bi bi-x-circle-fill”></i>Batal</button>
             <button type="submit" class="btn btn-sm btn-primary"><i class=”bi bi-save-fill”></i>Simpan Data</button>
         </div>
     </div>

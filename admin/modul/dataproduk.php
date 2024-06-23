@@ -73,24 +73,33 @@ else {
         //proses mengambil data
         $keyid= $_GET['id']; //menampung variabel id yg di URL
         //untuk mendapatkan sql query 
-        $statment_sql = $cn_mysql->prepare("select*from product_category  where categoryid=".$_GET['id']."");
+        $statment_sql = $cn_mysql->prepare("select*from product where idproduct=".$_GET['id']."");
         //untuk mengeksekusi kode sql 
         $statment_sql->execute();
         $result = $statment_sql->get_result(); 
         $data = $result ->fetch_assoc();
-        $nama = $data['category_name'];
+        $idcategory = $data['idcategory_fk'];
+        $nama = $data['name_product'];
+        $harga = $data['price'];
+        $stok = $data['stok'];
+        $deskripsi = $data['description'];
+        $created_date = date("Y-m-d h:i:s"); //untuk mengisi tanggal hari ini
+        $created_by =  $_SESSION['loginname']; //untuk menampilkan user yg login
+        $update_by = $_SESSION['loginname']; //untuk menampilkan user yg login;
+        $update_date = date("Y-m-d h:i:s"); //untuk mengisi tanggal hari ini yg akan di tampilkan di dalam form 
+        $produk_filelama = $data['produk_file']; //untuk menampung hasil gambar yg akan di tampilkan di dalam form 
         
     }
     else if($_GET['action']=="delete"){
         header("location: modul/dataprodukproses.php?proses=delete&id=".$_GET['id']."");
     }
 ?>
- <!-- encytype pada tag form berfungsi untuk upload file -->
+ <!-- encytype pada tag form berfungsi untuk upload file jika tidak ada multipart data tidak bisa terbaca -->
  <form enctype="multipart/form-data" action="modul/dataprodukproses.php" method="post">
     <input type="hidden" name="proses" value="<?php echo $process; ?>">
-    <input type="hidden" name="keyid" value="<?php echo $keyid; ?>">
+    <input type="hidden" name="key" value="<?php echo $keyid; ?>">
     <div class="row">
-        <label class="col-md-2">Kategori produk :</label>
+        <label class="col-md-2">Kategori produk : </label>
         <div class="col-md-5">
             <select class="form-select" id="k_produk" name="k_produk">
                 <option value="">pilih kategori</option> 
@@ -102,7 +111,13 @@ else {
                 //untuk menampung hasil eksekusi query
                 $result = $statment_sql->get_result();
                 while ($data = $result ->fetch_assoc()) {
-                    echo '<option value="'.$data['categoryid'].'">'.$data['category_name'].'</option>';
+                    if ($idcategory==$data['categoryid']) {
+                        $pilih="selected";
+                    }
+                    else{
+                        $pilih= "";
+                    }
+                    echo '<option value="'.$data['categoryid'].'" '.$pilih.'>'.$data['category_name'].'</option>';
                 }
                 ?>            
         </select>
@@ -111,30 +126,36 @@ else {
     <div class="row my-3">
         <label class="col-md-2">nama produk :</label>
         <div class="col-md-5">
-            <input type="text" name="namaproduk" class="form-control input-sm" required>
+            <input type="text" name="namaproduk" class="form-control input-sm" value ="<?php echo $nama; ?>" required>
         </div>
     </div>
     <div class="row my-3">
         <label class="col-md-2">harga :</label>
         <div class="col-md-2">
-            <input type="number" name="harga" class="form-control input-sm" <?php echo $harga;?> required>
+            <input type="number" name="harga" class="form-control input-sm" value="<?php echo $harga;?>" required>
         </div>
         <label class="col-md-1">stok :</label>
         <div class="col-md-2">
-            <input type="text" name="stok" class="form-control input-sm" <?php echo $stok; ?> required>
+            <input type="text" name="stok" class="form-control input-sm" value="<?php echo $stok; ?>" required>
         </div>
     </div>
     <div class="row">
         <label class="col-md-2">deskripsi :</label>
         <div class="col-md-5">
-        <textarea class="form-control" name="keterangan" id="keterangan" <?php echo $deskripsi; ?> required></textarea>
+        <textarea class="form-control" name="keterangan" id="keterangan" required><?php echo $deskripsi; ?></textarea>
         </div>
     </div>
     <div class="row">
         <label class="col-md-2 my-3">upload gambar produk :</label>
         <div class="col-md-5 my-3">
         <input type="file" name="gm_produk" class="form-control input-sm">
-        </div>
+        <input type="hidden" name="filelama" value="<?php echo $produk_filelama; ?>" >
+    </div>
+    <div class="row">
+        <label class="col-md-2 my-3">view gambar produk :</label>
+        <div class="col-md-5 my-3">
+        <img src="../assets/img_produk/<?php echo $produk_filelama ?>" width="50%">
+    </div>
     </div>
         <input type="hidden" name="created_date" value="<?php echo $created_date; ?>">
         <input type="hidden" name="created_by" value="<?php echo $created_by; ?>">
@@ -144,7 +165,7 @@ else {
     <div class="col-md-2"></div>
     <div class="col-md-5">
             <hr>
-            <button type="reset" class="btn btn-sm btn-secondary"><i class=”bi bi-x-circle-fill”></i>Batal</button>
+            <button type="reset" class="btn btn-sm btn-secondary" onclick="history.back()"><i class=”bi bi-x-circle-fill”></i>Batal</button>
             <button type="submit" class="btn btn-sm btn-primary"><i class=”bi bi-save-fill”></i>Simpan Data</button>
         </div>
     </div>
