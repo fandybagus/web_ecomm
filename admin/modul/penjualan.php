@@ -67,6 +67,7 @@ else {
         $result = $statment_sql->get_result(); 
         $data = $result ->fetch_assoc();
         $nama = $data['category_name'];
+        $date_today = date("d-m-Y");
     }
 
     else if($_GET['action']=="delete"){
@@ -81,13 +82,13 @@ else {
     <input type="hidden" name="keyid" value="<?php echo $keyid; ?>">
     <input type="hidden" name="createdby" value="<?php echo $_SESSION['loginname']; ?>">
     <div class="row">
-        <label class="col-md-2">No.Invoice :</label>
+        <label class="col-md-2">No.Invoice : </label>
         <div class="col-md-3">
-            <select class="form-select" id="n_invoice" name="n_invoice">pilih kategori</select>
+            <input class="form-control" id="n_invoice" name="n_invoice" value="<?php echo generate_no_inv() ?>" readonly>
         </div>
         <label class="col-md-1">Tanggal :</label>
         <div class="col-md-3">
-            <input type="datetime-local" class="form-control" id="tanggal" name="tanggal">
+            <input type="datetime-local" class="form-control" id="tanggal" name="tanggal" value="<?php echo date("Y-m-d h:i:s") ?>">
         </div>
     </div>
     <div class="row my-2">
@@ -95,6 +96,23 @@ else {
         <div class="col-md-7">
         <select class="form-select" id="n_invoice" name="n_invoice">
             <option >Pilih Nama Pelanggan</option>
+            <?php
+                //untuk mendapatkan sql query 
+                $statment_sql = $cn_mysql->prepare("select * from mst_member where isactive=1");
+                //untuk mengeksekusi kode sql 
+                $statment_sql->execute();
+                //untuk menampung hasil eksekusi query
+                $result = $statment_sql->get_result();
+                while ($data = $result ->fetch_assoc()) {
+                    if ($idcategory==$data['memberid']) {
+                        $pilih="selected";
+                    }
+                    else{
+                        $pilih= "";
+                    }
+                    echo '<option value="'.$data['memberid'].'" '.$pilih.'>'.$data['name_mb'].'</option>';
+                }
+                ?>            
         </select>
         </div>
     </div>
@@ -121,12 +139,30 @@ else {
                 <tr>
                     <td width="5%">#</td>
                     <td>
-                        <select class="form-select" id="nm_barang" name="nm_barang">
+                        <select class="form-select" id="nm_barang" name="nm_barang" onchange="pilih_produk()">
                             <option >Pilih Nama barang</option>
+                            <?php
+                            //untuk mendapatkan sql query 
+                            $statment_sql = $cn_mysql->prepare("select*from product where is_active=1");
+                            //untuk mengeksekusi kode sql 
+                            $statment_sql->execute();
+                            //untuk menampung hasil eksekusi query
+                            $result = $statment_sql->get_result();
+                            while ($data = $result ->fetch_assoc()) {
+                                if ($idcategory==$data['idproduct']) {
+                                    $pilih="selected";
+                                }
+                                else{
+                                    $pilih= "";
+                                }
+                                echo '<option value="'.$data['idproduct'].'" '.$pilih.' data-harga='.$data['idproduct'].'">'.$data['name_product'].'</option>';
+                            }
+                            ?>                    
+
                         </select>
                     </td>
                     <td width="20%">
-                        <input type="number" class="form-control" readonly>
+                        <input type="number" id="harga" class="form-control" readonly>
                     </td>
                     <td width="10%">
                         <input type="number" class="form-control">

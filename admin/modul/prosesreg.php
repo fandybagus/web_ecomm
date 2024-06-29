@@ -19,8 +19,18 @@ if($_POST['action'] == "add" || $_GET['proses'] == "delete"){
     
         // Enkripsi password
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-    
-        // Query SQL untuk menyimpan data ke database
+        $email_member = $_POST['email'];
+        $statement_sql = $cn_mysql->prepare("SELECT email_mb FROM mst_member WHERE email_mb=?");
+        $statement_sql->bind_param("s", $email_member);
+        $statement_sql->execute();
+        //untuk menampung hasil eksekusi query
+        $result = $statement_sql->get_result();
+        if ($result->num_rows>0) {
+            back("../../?page=registrasi");
+            notif("email sudah terdaftar");
+        }
+        else{
+            // Query SQL untuk menyimpan data ke database
         $statement_sql = $cn_mysql->prepare("INSERT INTO mst_member (membercode, name_mb, email_mb, password, datebirth_mb, telp_mb, address_mb, date_reg,isactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?,1)");
         
         // Bind parameter
@@ -33,10 +43,11 @@ if($_POST['action'] == "add" || $_GET['proses'] == "delete"){
             notif("berhasil tersimpan ");
         } else {
             // Jika gagal, tampilkan pesan error
+            back("../../?page=regi  strasi");
             notif("gagal tersimpan");
-            back("../../regstrasi.php");
+            
         }
-    
+        }
         // Tutup statement
         $statement_sql->close();        
     } 

@@ -72,7 +72,7 @@ else {
 <div class="row">
     <label class="col-md-2"><b>Kode Member </b></label>
     <div class="col-md-2">
-        <p class="form-control-static">: <?php echo generate_no_member() ?></p>
+        <p class="form-control-static">: <?php echo $membercode ?></p>
     </div>
 </div>
 <div class="row">

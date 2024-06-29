@@ -22,11 +22,11 @@
     <div class="row my-3">
         <label class="col-md-2">Password :</label>
         <div class="col-md-2">
-            <input type="password" name="password" class="form-control input-sm" value="" required>
+            <input type="password" id="pw1" name="password" class="form-control input-sm" value="" required>
         </div>
         <label class="col-md-2">Ulangi Password :</label>
         <div class="col-md-2">
-            <input type="password" name="ulangi_pw" class="form-control input-sm" value="" required>
+            <input type="password" id="pw2" name="ulangi_pw" onchange="cekpassword()" class="form-control input-sm" value="" required>
         </div>
     </div>
     <div class="row my-3">
@@ -49,7 +49,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-5 my-2">
             <button type="reset" class="btn btn-sm btn-danger" onclick="history.back()"><i class="bi bi-x-circle-fill"></i> Batal</button>
-            <button type="submit" name="action" value="add" class="btn btn-sm btn-primary"><i class="bi bi-save-fill"></i> Simpan Data</button>
+            <button type="submit" id="tsimpan" name="action" value="add" class="btn btn-sm btn-primary"><i class="bi bi-save-fill"></i> Simpan Data</button>
         </div>
     </div>
 </form>

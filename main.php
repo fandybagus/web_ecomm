@@ -4,7 +4,7 @@
         die("Koneksi gagal: " . $cn_mysql->connect_error);
     }
     // Query SQL untuk mengambil produk yang aktif
-    $statement_sql = $cn_mysql->prepare("SELECT * FROM product WHERE is_active = '1'");
+    $statement_sql = $cn_mysql->prepare("SELECT * FROM product WHERE is_active = 1 ORDER BY idproduct DESC LIMIT 3");
     $statement_sql->execute();
     $result = $statement_sql->get_result();
 

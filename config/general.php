@@ -58,4 +58,49 @@ function generate_no_member(){
 
     return $code_member;
 }
+function generate_no_inv(){
+    //ambil data code member yg paling terakhir
+    //$GLOBALS ['namavariabel tanpa tanda $'] fungsinya agar suatu variabel dapat diakses secara global termasuk
+    //dalam sebuah fungsi,tanpa harus membuat ulang variabel yang sama 
+    $statment_sql = $GLOBALS['cn_mysql']->prepare("select no_invoice from penjualan_head order by no_invoice DESC LIMIT 1");
+    $statment_sql->execute(); 
+    $result = $statment_sql->get_result();
+    $cekdata = $result->num_rows; /*untuk pengecekan apakah ada data atau tidak di tabel, hasilnya berupa angka*/
+    if ($cekdata >0) {
+        //jika sudah ada data di tabel mst_member
+        $data = $result ->fetch_assoc();
+        $code_lama = $data['no_invoice'];
+        $tahun_sekarang = date('y');
+        $tahun_ditabel = substr($code_lama,5,2);
+        if ($tahun_ditabel == $tahun_sekarang) {
+           $nourut = substr($code_lama,7,4)+1;
+           if ($nourut < 10) {
+            $nourut_baru = "00".$nourut;
+           }
+           else if ($nourut < 100) {
+            $nourut_baru = "0".$nourut;
+           }
+           else if ($nourut < 1000) {
+            $nourut_baru = "".$nourut;
+           }
+           else if ($nourut < 10000) {
+            $nourut_baru = "".$nourut;
+           }
+           //generate code dengan tahun yang sama 
+           $code_member = 'INV'.date('m').$tahun_ditabel.$nourut_baru;
+        }
+        else {
+            //jika generate code tahun berubah riset ke 0001 
+            $code_member = "INV". date("my")."0001";
+        }
+        
+    }
+    else {
+        //jika belum ada data di tabel mst_member
+        $code_member = "INV". date("my")."0001";
+    }
+
+    return $code_member;
+}
+
 ?>
