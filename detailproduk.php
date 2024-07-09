@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $productName = $row['name_product'];
     $productPrice = number_format($row['price'], 0, ',', '.');
-    $productDescription = $row['description'];
+    $productDescription = nl2br(htmlspecialchars($row['description'])); // Ganti baris baru dengan <br> dan sanitasi input
     $productImage = $row['produk_file'];
     $waMessage = "Halo, saya tertarik untuk membeli produk $productName dengan harga Rp. $productPrice. Apakah stoknya masih ada?";
 ?>
@@ -27,11 +27,11 @@ if ($result->num_rows > 0) {
             <div class="col-md-6">
                 <img src="assets/img_produk/<?php echo $productImage; ?>" class="img-fluid" alt="..." />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 subkategori">
                 <h1><?php echo $productName; ?></h1>
                 <h2>Rp. <?php echo $productPrice; ?></h2>
                 <p><?php echo $productDescription; ?></p>
-                <a href="index.php" class="btn btn-primary">Kembali</a>
+                <a href="index.php" class="btn btn-secondary">Kembali</a>
                 <a href="https://api.whatsapp.com/send?phone=6282131930787&text=<?php echo urlencode($waMessage); ?>" class="btn btn-success">Beli via WhatsApp</a>
             </div>
         </div>

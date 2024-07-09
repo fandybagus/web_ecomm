@@ -34,9 +34,9 @@ $nama_toko = "fan's distro";
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="?page=registrasi">Daftar Member</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+            </li>
         </ul>
       </div>
     </div>

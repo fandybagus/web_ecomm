@@ -75,10 +75,10 @@ function generate_no_inv(){
         if ($tahun_ditabel == $tahun_sekarang) {
            $nourut = substr($code_lama,7,4)+1;
            if ($nourut < 10) {
-            $nourut_baru = "00".$nourut;
+            $nourut_baru = "000".$nourut;
            }
            else if ($nourut < 100) {
-            $nourut_baru = "0".$nourut;
+            $nourut_baru = "".$nourut;
            }
            else if ($nourut < 1000) {
             $nourut_baru = "".$nourut;
